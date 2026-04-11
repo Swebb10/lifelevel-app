@@ -1,0 +1,77 @@
+/* ─── Reset ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'DM Sans', sans-serif; min-height: 100dvh; overflow-x: hidden; }
+button { font-family: inherit; cursor: pointer; border: none; outline: none; }
+input, select { font-family: inherit; outline: none; }
+
+/* ─── Theme: Dark (default) ──────────────────────────────── */
+:root {
+  --bg:        #0a0a0a;
+  --bg2:       #111111;
+  --bg3:       #1a1a1a;
+  --surface:   #1e1e1e;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.13);
+  --border3:   rgba(255,255,255,0.20);
+  --text:      #f0f0ee;
+  --text2:     #888;
+  --text3:     #505050;
+  --accent:    #c9a84c;
+  --accent2:   #e8c97a;
+  --accent-bg: rgba(201,168,76,0.10);
+  --accent-border: rgba(201,168,76,0.30);
+  --green:     #4caf6e;
+  --green-bg:  rgba(76,175,110,0.12);
+  --blue:      #5b9cf6;
+  --blue-bg:   rgba(91,156,246,0.12);
+  --red:       #e06060;
+  --red-bg:    rgba(224,96,96,0.12);
+  --purple:    #a78bfa;
+  --purple-bg: rgba(167,139,250,0.12);
+  --radius:    14px;
+  --radius-sm: 9px;
+  --shadow:    0 0 0 1px rgba(255,255,255,0.04);
+}
+
+/* ─── Theme: Light ───────────────────────────────────────── */
+.light {
+  --bg:        #f5f3ef;
+  --bg2:       #edeae4;
+  --bg3:       #e4e0d8;
+  --surface:   #ffffff;
+  --border:    rgba(0,0,0,0.07);
+  --border2:   rgba(0,0,0,0.12);
+  --border3:   rgba(0,0,0,0.20);
+  --text:      #111110;
+  --text2:     #666;
+  --text3:     #aaa;
+  --accent:    #a8792a;
+  --accent2:   #8a5f18;
+  --accent-bg: rgba(168,121,42,0.09);
+  --accent-border: rgba(168,121,42,0.28);
+  --green:     #2e7d4f;
+  --green-bg:  rgba(46,125,79,0.10);
+  --blue:      #2563c4;
+  --blue-bg:   rgba(37,99,196,0.09);
+  --red:       #c0392b;
+  --red-bg:    rgba(192,57,43,0.09);
+  --purple:    #7c3aed;
+  --purple-bg: rgba(124,58,237,0.09);
+  --shadow:    0 1px 3px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04);
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+/* ─── Animations ─────────────────────────────────────────── */
+@keyframes fadeIn   { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes scaleIn  { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+@keyframes slideUp  { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes pulse    { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+@keyframes shimmer  { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+.fade-in  { animation: fadeIn  0.35s ease both; }
+.scale-in { animation: scaleIn 0.3s  ease both; }
