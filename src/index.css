@@ -75,3 +75,53 @@ input, select { font-family: inherit; outline: none; }
 
 .fade-in  { animation: fadeIn  0.35s ease both; }
 .scale-in { animation: scaleIn 0.3s  ease both; }
+
+/* ─── RESPONSIVE DESIGN ──────────────────────────────────── */
+
+/* Main content wrapper */
+.app-container {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  background: var(--bg);
+  padding-bottom: 80px;
+  position: relative;
+}
+
+/* Tablets (600px+) */
+@media (min-width: 600px) {
+  html { font-size: 17px; }
+  body { padding: 20px; }
+  
+  .app-container {
+    max-width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    margin: 0 auto;
+  }
+}
+
+/* Laptops / Desktops (1024px+) */
+@media (min-width: 1024px) {
+  html { font-size: 18px; }
+  body { padding: 40px 20px; }
+  
+  .app-container {
+    max-width: 900px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Large Desktops (1440px+) */
+@media (min-width: 1440px) {
+  html { font-size: 19px; }
+  body { padding: 60px 40px; }
+  
+  .app-container {
+    max-width: 1000px;
+  }
+}
+
+

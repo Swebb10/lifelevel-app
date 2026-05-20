@@ -67,7 +67,8 @@ export default function App() {
   // ── Styles shared ──────────────────────────────────────────
   const s = {
     app: {
-      maxWidth: 480,
+      maxWidth: '100%',
+      width: '100%',
       margin: '0 auto',
       minHeight: '100dvh',
       background: 'var(--bg)',
@@ -91,7 +92,7 @@ export default function App() {
   }
 
   return (
-    <div className={state.theme === 'light' ? 'light' : ''} style={s.app}>
+    <div className={`${state.theme === 'light' ? 'light' : ''} app-container`} style={s.app}>
 
       {/* ── TOP BAR ─────────────────────────────────────── */}
       <div style={s.topbar}>
@@ -343,8 +344,8 @@ export default function App() {
       {/* ── BOTTOM NAV ──────────────────────────────────── */}
       <nav style={{
         position: 'fixed', bottom: 0,
-        left: '50%', transform: 'translateX(-50%)',
-        width: '100%', maxWidth: 480,
+        left: 0, right: 0,
+        width: '100%',
         background: 'var(--bg2)',
         borderTop: '0.5px solid var(--border)',
         display: 'flex', padding: '10px 0 20px',
