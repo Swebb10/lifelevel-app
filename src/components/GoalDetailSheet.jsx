@@ -24,13 +24,14 @@ const sectionTitle = {
   fontFamily: "'DM Mono', monospace",
 }
 
-export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, onAddEntry, onDeleteEntry }) {
+export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, onAddEntry, onDeleteEntry, onUpdateProgress }) {
   const [tab, setTab]           = useState('detalle')
   const [editing, setEditing]   = useState(false)
   const [editForm, setEditForm] = useState({ name: goal.name, target: goal.target, unit: goal.unit, xpBase: goal.xpBase, cat: goal.cat })
   const [noteText, setNoteText] = useState(goal.note || '')
   const [entryText, setEntryText] = useState('')
   const [noteSaved, setNoteSaved] = useState(false)
+  const [progressValue, setProgressValue] = useState('')
 
   const cat    = CATEGORIES[goal.cat] || CATEGORIES.fin
   const pct    = Math.min(100, Math.round((goal.current / goal.target) * 100))
@@ -60,6 +61,13 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
     onAddEntry(goal.id, entryText.trim())
     setEntryText('')
   }
+
+  const handleUpdateProgress = () => {
+    if (progressValue === '' || isNaN(parseFloat(progressValue))) return
+    onUpdateProgress(goal.id, parseFloat(progressValue))
+    setProgressValue('')
+  }
+
 
   const tabs = ['detalle', 'notas', 'editar']
 
@@ -170,6 +178,31 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
                 )}
               </div>
 
+              {/* Actualizar progreso numérico */}
+              <div style={sectionTitle}>Actualizar progreso</div>
+              <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
+                <input
+                  style={{ ...inputStyle, flex: 1 }}
+                  type="number"
+                  placeholder={`Nuevo valor actual (${goal.unit})`}
+                  value={progressValue}
+                  onChange={e => setProgressValue(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && handleUpdateProgress()}
+                  onFocus={e => e.target.style.borderColor = 'var(--accent)'}
+                  onBlur={e => e.target.style.borderColor = 'var(--border2)'}
+                />
+                <button
+                  onClick={handleUpdateProgress}
+                  style={{
+                    background: 'var(--accent)', color: '#000',
+                    border: 'none', borderRadius: 'var(--radius-sm)',
+                    padding: '0 16px', fontSize: 13, fontWeight: 500,
+                    cursor: 'pointer', fontFamily: "'DM Sans', sans-serif",
+                    flexShrink: 0,
+                  }}
+                >Guardar</button>
+              </div>
+
               {/* Stats grid */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
                 {[
@@ -190,47 +223,13 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
 
               {/* Last update */}
               {goal.lastUpdated && (
-                <div style={{ fontSize: 11, color: 'var(--text3)', textAlign: 'center', fontFamily: "'DM Mono', monospace" }}>
+                <div style={{ fontSize: 11, color: 'var(--text3)', textAlign: 'center', fontFamily: "'DM Mono', monospace", marginBottom: 20 }}>
                   Última actualización: {new Date(goal.lastUpdated).toLocaleDateString('es-CR', { day: 'numeric', month: 'long', year: 'numeric' })}
                 </div>
               )}
-            </div>
-          )}
 
-          {/* ── TAB: NOTAS ───────────────────────────── */}
-          {tab === 'notas' && (
-            <div>
-              {/* Nota fija */}
-              <div style={sectionTitle}>Nota de la meta</div>
-              <textarea
-                value={noteText}
-                onChange={e => setNoteText(e.target.value)}
-                placeholder="Escribe aquí el contexto de esta meta, por qué la creaste, qué significa para ti..."
-                style={{
-                  ...inputStyle,
-                  minHeight: 110, resize: 'none', lineHeight: 1.6,
-                  marginBottom: 8,
-                }}
-                onFocus={e => e.target.style.borderColor = 'var(--accent)'}
-                onBlur={e => e.target.style.borderColor = 'var(--border2)'}
-              />
-              <button
-                onClick={handleSaveNote}
-                style={{
-                  background: noteSaved ? 'var(--green-bg)' : 'var(--accent-bg)',
-                  color: noteSaved ? 'var(--green)' : 'var(--accent)',
-                  border: `0.5px solid ${noteSaved ? 'var(--green)' : 'var(--accent-border)'}`,
-                  borderRadius: 'var(--radius-sm)',
-                  padding: '8px 16px', fontSize: 12,
-                  cursor: 'pointer', fontFamily: "'DM Sans', sans-serif",
-                  marginBottom: 24, transition: 'all 0.2s',
-                }}
-              >
-                {noteSaved ? '✓ Guardado' : 'Guardar nota'}
-              </button>
-
-              {/* Historial de entradas */}
-              <div style={sectionTitle}>Bitácora de entradas</div>
+              {/* Historial de entradas / bitácora */}
+              <div style={sectionTitle}>Bitácora (notas de cada día)</div>
               <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
                 <input
                   style={{ ...inputStyle, flex: 1 }}
@@ -284,6 +283,40 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* ── TAB: NOTAS ───────────────────────────── */}
+          {tab === 'notas' && (
+            <div>
+              {/* Nota fija */}
+              <div style={sectionTitle}>Nota de la meta</div>
+              <textarea
+                value={noteText}
+                onChange={e => setNoteText(e.target.value)}
+                placeholder="Escribe aquí el contexto de esta meta, por qué la creaste, qué significa para ti..."
+                style={{
+                  ...inputStyle,
+                  minHeight: 110, resize: 'none', lineHeight: 1.6,
+                  marginBottom: 8,
+                }}
+                onFocus={e => e.target.style.borderColor = 'var(--accent)'}
+                onBlur={e => e.target.style.borderColor = 'var(--border2)'}
+              />
+              <button
+                onClick={handleSaveNote}
+                style={{
+                  background: noteSaved ? 'var(--green-bg)' : 'var(--accent-bg)',
+                  color: noteSaved ? 'var(--green)' : 'var(--accent)',
+                  border: `0.5px solid ${noteSaved ? 'var(--green)' : 'var(--accent-border)'}`,
+                  borderRadius: 'var(--radius-sm)',
+                  padding: '8px 16px', fontSize: 12,
+                  cursor: 'pointer', fontFamily: "'DM Sans', sans-serif",
+                  marginBottom: 24, transition: 'all 0.2s',
+                }}
+              >
+                {noteSaved ? '✓ Guardado' : 'Guardar nota'}
+              </button>
             </div>
           )}
 

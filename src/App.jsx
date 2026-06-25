@@ -381,6 +381,7 @@ export default function App() {
           onSaveNote={(id, note) => { saveGoalNote(id, note) }}
           onAddEntry={(id, text) => { addGoalEntry(id, text); showToast('Entrada añadida.') }}
           onDeleteEntry={(id, index) => deleteGoalEntry(id, index)}
+          onUpdateProgress={(id, value) => { handleUpdateConfirm(id, value) }}
         />
       )}
 
