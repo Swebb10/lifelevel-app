@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
-import { loadState, saveState, toDateStr } from '../utils/storage.js'
-import { calcXPForUpdate, updateStreak, checkBrokenStreaks } from '../utils/xp.js'
+import { loadState, saveState, DEFAULT_STATE } from '../utils/storage.js'
+import { checkBrokenStreaks } from '../utils/xp.js'
 import { getLevel } from '../data/levels.js'
-import { UPDATE_MESSAGES } from '../data/rewards.js'
+import { applyProgress } from '../utils/progress.js'
 
 export function useAppState() {
   const [state, setStateRaw] = useState(() => {
@@ -18,8 +18,8 @@ export function useAppState() {
 
   // Aplicar tema al document
   useEffect(() => {
-    document.documentElement.className = state.theme === 'light' ? 'light' : ''
-    document.body.className = state.theme === 'light' ? 'light' : ''
+    document.documentElement.classList.toggle('light', state.theme === 'light')
+    document.querySelector('meta[name=theme-color]')?.setAttribute('content', state.theme === 'light' ? '#f6f7f2' : '#101211')
   }, [state.theme])
 
   const setState = useCallback((updater) => {
@@ -57,90 +57,20 @@ export function useAppState() {
     }))
   }, [setState])
 
-  const updateGoalProgress = useCallback((id, newValue) => {
-    setState(prev => {
-      const goals = prev.goals.map(g => {
-        if (g.id !== id) return g
-
-        const clampedValue = Math.min(newValue, g.target)
-        const xpGained     = calcXPForUpdate(g, clampedValue)
-        const streakData   = updateStreak(g)
-        const isCompleted  = clampedValue >= g.target && !g.completedAt
-
-        return {
-          ...g,
-          current:     clampedValue,
-          streak:      streakData.streak,
-          lastUpdated: streakData.lastUpdated,
-          completedAt: isCompleted ? new Date().toISOString() : g.completedAt,
-          xpLastGained: xpGained,
-        }
-      })
-
-      const updatedGoal = goals.find(g => g.id === id)
-      const xpGained    = updatedGoal?.xpLastGained || 0
-      const newXP       = prev.xp + xpGained
-      const newTotalXP  = (prev.totalXP || 0) + xpGained
-      const newLevelN   = getLevel(newXP).n
-      const leveledUp   = newLevelN > prev.currentLevel
-
-      return {
-        ...prev,
-        goals,
-        xp:           newXP,
-        totalXP:      newTotalXP,
-        currentLevel: newLevelN,
-        lastLevelUp:  leveledUp ? newLevelN : prev.lastLevelUp,
-        pendingLevelUp: leveledUp ? newLevelN : prev.pendingLevelUp,
-        lastUpdateMsg: UPDATE_MESSAGES[Math.floor(Math.random() * UPDATE_MESSAGES.length)],
-      }
-    })
+  const updateGoalProgress = useCallback((id, value) => {
+    setState(prev => applyProgress(prev, id, value))
   }, [setState])
 
   const markHabitDone = useCallback((id) => {
-    setState(prev => {
-      const today = toDateStr()
-      const goals = prev.goals.map(g => {
-        if (g.id !== id) return g
-        const alreadyDoneToday = g.lastUpdated && toDateStr(new Date(g.lastUpdated)) === today
-        if (alreadyDoneToday) return g
-
-        const streakData = updateStreak(g)
-        const xpGained   = Math.round(g.xpBase * 0.1 * (1 + (streakData.streak / 10)))
-
-        return {
-          ...g,
-          current:      (g.current || 0) + 1,
-          streak:        streakData.streak,
-          lastUpdated:   streakData.lastUpdated,
-          xpLastGained:  xpGained,
-        }
-      })
-
-      const updatedGoal = goals.find(g => g.id === id)
-      const xpGained    = updatedGoal?.xpLastGained || 0
-      const newXP       = prev.xp + xpGained
-      const newLevelN   = getLevel(newXP).n
-      const leveledUp   = newLevelN > prev.currentLevel
-
-      return {
-        ...prev,
-        goals,
-        xp:           newXP,
-        totalXP:      (prev.totalXP || 0) + xpGained,
-        currentLevel: newLevelN,
-        pendingLevelUp: leveledUp ? newLevelN : prev.pendingLevelUp,
-        lastUpdateMsg: UPDATE_MESSAGES[Math.floor(Math.random() * UPDATE_MESSAGES.length)],
-      }
-    })
+    setState(prev => applyProgress(prev, id, null, true))
   }, [setState])
-
   const clearPendingLevelUp = useCallback(() => {
     setState(prev => ({ ...prev, pendingLevelUp: null }))
   }, [setState])
 
   // ── Editar meta ────────────────────────────────────────────
   const editGoal = useCallback((id, changes) => {
+    if (!changes.name?.trim() || !changes.unit?.trim() || !Number.isFinite(changes.target) || changes.target <= 0) return
     setState(prev => ({
       ...prev,
       goals: prev.goals.map(g => g.id === id ? { ...g, ...changes } : g),
@@ -238,3 +168,4 @@ export function useAppState() {
     resetAll,
   }
 }
+

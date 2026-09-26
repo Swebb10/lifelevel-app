@@ -2,7 +2,8 @@ import { isYesterday, isSameDay } from './storage.js'
 
 // Calcula XP ganado al actualizar una meta numérica
 export function calcXPForUpdate(goal, newValue) {
-  const oldPct = goal.current / goal.target
+  if (!Number.isFinite(newValue) || goal.target <= 0) return 0
+  const oldPct = Math.max(goal.current, goal.xpHighWater ?? goal.current) / goal.target
   const newPct = Math.min(1, newValue / goal.target)
   const delta   = newPct - oldPct
   if (delta <= 0) return 0
@@ -10,7 +11,7 @@ export function calcXPForUpdate(goal, newValue) {
   let xp = Math.round(goal.xpBase * delta * 2)
 
   // Bonus por completar
-  if (newPct >= 1 && oldPct < 1) xp += Math.round(goal.xpBase * 0.5)
+  if (newPct >= 1 && oldPct < 1 && !goal.completionRewarded && !goal.completedAt) xp += Math.round(goal.xpBase * 0.5)
 
   // Bonus de racha
   const streak = goal.streak || 0
@@ -54,10 +55,11 @@ export function checkBrokenStreaks(goals) {
     const last = new Date(goal.lastUpdated)
     const diffDays = Math.floor((now - last) / (1000 * 60 * 60 * 24))
 
-    if (diffDays >= 2 && (goal.type === 'streak' || goal.type === 'habit')) {
+    if (!isSameDay(last, now) && !isYesterday(last)) {
       // Racha rota
-      return { ...goal, streak: 0, streakBroken: true }
+      return { ...goal, streak: 0, streakBroken: true, ...(goal.type === 'streak' && !goal.completedAt ? { current: 0 } : {}) }
     }
     return { ...goal, streakBroken: false }
   })
 }
+

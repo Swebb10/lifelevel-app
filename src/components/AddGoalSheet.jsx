@@ -1,3 +1,4 @@
+import { useDialog } from '../hooks/useDialog.js'
 import React, { useState } from 'react'
 import { CATEGORIES, GOAL_TYPES, XP_TIERS } from '../data/goalTypes.js'
 
@@ -24,6 +25,7 @@ const labelStyle = {
 }
 
 export default function AddGoalSheet({ onAdd, onClose }) {
+  const dialogRef = useDialog(onClose)
   const [form, setForm] = useState(INITIAL)
   const [error, setError] = useState('')
 
@@ -31,7 +33,7 @@ export default function AddGoalSheet({ onAdd, onClose }) {
 
   const handleSubmit = () => {
     if (!form.name.trim())    return setError('Ponle un nombre a la meta.')
-    if (!form.target || +form.target <= 0) return setError('Escribe un valor meta válido.')
+    if (!form.target || !Number.isFinite(Number(form.target)) || +form.target <= 0) return setError('Escribe un valor meta válido.')
     if (!form.unit.trim())    return setError('Define la unidad (ej: $, kg, libros).')
 
     onAdd({
@@ -71,6 +73,7 @@ export default function AddGoalSheet({ onAdd, onClose }) {
           overflowY: 'auto',
           animation: 'slideUp 0.3s cubic-bezier(0.4,0,0.2,1)',
         }}
+        ref={dialogRef} role="dialog" aria-modal="true" aria-label="Nueva meta" tabIndex={-1}
         onClick={e => e.stopPropagation()}
       >
         {/* Handle */}
@@ -96,7 +99,7 @@ export default function AddGoalSheet({ onAdd, onClose }) {
         {/* Categoría */}
         <div style={{ marginBottom: 14 }}>
           <label style={labelStyle}>Categoría</label>
-          <div style={{ display: 'grid', gridColumns: 'repeat(3, 1fr)', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
             {Object.entries(CATEGORIES).map(([key, cat]) => (
               <button
                 key={key}
@@ -233,3 +236,5 @@ export default function AddGoalSheet({ onAdd, onClose }) {
     </div>
   )
 }
+
+

@@ -1,8 +1,10 @@
+import { useDialog } from '../hooks/useDialog.js'
 import React from 'react'
 import { REWARDS } from '../data/rewards.js'
 import { LEVELS } from '../data/levels.js'
 
 export default function RewardModal({ levelN, onClose }) {
+  const dialogRef = useDialog(onClose)
   if (!levelN) return null
 
   const reward = REWARDS[levelN] || REWARDS[3]
@@ -31,6 +33,7 @@ export default function RewardModal({ levelN, onClose }) {
           width: '100%',
           textAlign: 'center',
         }}
+        ref={dialogRef} role="dialog" aria-modal="true" aria-label="Nuevo nivel" tabIndex={-1}
         onClick={e => e.stopPropagation()}
       >
         {/* Icon */}
@@ -125,3 +128,4 @@ export default function RewardModal({ levelN, onClose }) {
     </div>
   )
 }
+

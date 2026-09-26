@@ -1,3 +1,4 @@
+import { useDialog } from '../hooks/useDialog.js'
 import React, { useState } from 'react'
 import { CATEGORIES, GOAL_TYPES, XP_TIERS } from '../data/goalTypes.js'
 import { toDateStr } from '../utils/storage.js'
@@ -24,9 +25,10 @@ const sectionTitle = {
   fontFamily: "'DM Mono', monospace",
 }
 
-export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, onAddEntry, onDeleteEntry, onUpdateProgress }) {
+export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, onAddEntry, onDeleteEntry, onUpdateProgress, onHabit }) {
+  const dialogRef = useDialog(onClose)
   const [tab, setTab]           = useState('detalle')
-  const [editing, setEditing]   = useState(false)
+  const [error, setError] = useState('')
   const [editForm, setEditForm] = useState({ name: goal.name, target: goal.target, unit: goal.unit, xpBase: goal.xpBase, cat: goal.cat })
   const [noteText, setNoteText] = useState(goal.note || '')
   const [entryText, setEntryText] = useState('')
@@ -39,7 +41,7 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
   const entries = goal.entries || []
 
   const handleSaveEdit = () => {
-    if (!editForm.name.trim() || !editForm.target) return
+    if (!editForm.name.trim() || !editForm.unit.trim() || !Number.isFinite(Number(editForm.target)) || Number(editForm.target) <= 0) return setError('Completa el nombre, una unidad y una meta mayor que cero.')
     onUpdate(goal.id, {
       name:   editForm.name.trim(),
       target: parseFloat(editForm.target),
@@ -47,7 +49,8 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
       xpBase: parseInt(editForm.xpBase),
       cat:    editForm.cat,
     })
-    setEditing(false)
+    setError('')
+    setTab('detalle')
   }
 
   const handleSaveNote = () => {
@@ -63,7 +66,8 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
   }
 
   const handleUpdateProgress = () => {
-    if (progressValue === '' || isNaN(parseFloat(progressValue))) return
+    if (progressValue === '' || !Number.isFinite(Number(progressValue)) || Number(progressValue) < 0) return setError('Escribe un progreso válido, mayor o igual a cero.')
+    setError('')
     onUpdateProgress(goal.id, parseFloat(progressValue))
     setProgressValue('')
   }
@@ -95,6 +99,7 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
           flexDirection: 'column',
           animation: 'slideUp 0.3s cubic-bezier(0.4,0,0.2,1)',
         }}
+        ref={dialogRef} role="dialog" aria-modal="true" aria-label="Detalle de meta" tabIndex={-1}
         onClick={e => e.stopPropagation()}
       >
         {/* Handle */}
@@ -179,6 +184,7 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
               </div>
 
               {/* Actualizar progreso numérico */}
+              {['habit', 'streak'].includes(goal.type) ? <button className="primary" style={{ marginBottom: 20 }} disabled={isDone || !!(goal.lastUpdated && toDateStr(new Date(goal.lastUpdated)) === toDateStr())} onClick={() => onHabit(goal.id)}>{isDone ? 'Meta cumplida' : goal.lastUpdated && toDateStr(new Date(goal.lastUpdated)) === toDateStr() ? '✓ Hecho hoy' : 'Marcar hábito de hoy'}</button> : <>
               <div style={sectionTitle}>Actualizar progreso</div>
               <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
                 <input
@@ -203,6 +209,8 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
                 >Guardar</button>
               </div>
 
+              </>}
+              {error && <p role="alert" style={{ color: 'var(--red)', marginBottom: 15 }}>{error}</p>}
               {/* Stats grid */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
                 {[
@@ -430,3 +438,4 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
     </div>
   )
 }
+

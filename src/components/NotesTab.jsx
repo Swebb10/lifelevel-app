@@ -217,7 +217,7 @@ export default function NotesTab({ notes, onAdd, onDelete, onUpdate }) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {filtered.map(note => {
-          const cat    = CATEGORIES[note.cat] || CATEGORIES.otros
+          const cat    = CATEGORIES[note.cat] || CATEGORIES.men
           const colors = COLOR_VAR[cat.color]
           return (
             <div
@@ -241,7 +241,7 @@ export default function NotesTab({ notes, onAdd, onDelete, onUpdate }) {
                 <div style={{ flex: 1 }} />
                 <button
                   onClick={() => handleEdit(note)}
-                  style={{ background: 'transparent', border: 'none', color: 'var(--text3)', fontSize: 12, cursor: 'pointer', fontFamily: "'DM Mono', monospace', padding: '0 4px'" }}
+                  style={{ background: 'transparent', border: 'none', color: 'var(--text3)', fontSize: 12, cursor: 'pointer', fontFamily: "'DM Mono', monospace", padding: '0 4px' }}
                   onMouseEnter={e => e.currentTarget.style.color = 'var(--accent)'}
                   onMouseLeave={e => e.currentTarget.style.color = 'var(--text3)'}
                 >
@@ -272,3 +272,4 @@ export default function NotesTab({ notes, onAdd, onDelete, onUpdate }) {
     </div>
   )
 }
+
