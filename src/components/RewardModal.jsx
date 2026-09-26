@@ -11,7 +11,7 @@ export default function RewardModal({ levelN, onClose }) {
   const levelData = LEVELS.find(l => l.n === levelN)
 
   return (
-    <div
+    <div className="modal-overlay"
       style={{
         position: 'fixed', inset: 0,
         background: 'rgba(0,0,0,0.88)',
@@ -112,7 +112,7 @@ export default function RewardModal({ levelN, onClose }) {
           style={{
             width: '100%',
             background: 'var(--accent)',
-            color: '#000',
+            color: 'var(--bg)',
             border: 'none',
             borderRadius: 'var(--radius-sm)',
             padding: '13px',
@@ -128,4 +128,6 @@ export default function RewardModal({ levelN, onClose }) {
     </div>
   )
 }
+
+
 

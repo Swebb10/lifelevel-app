@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { loadState, saveState, DEFAULT_STATE } from '../utils/storage.js'
 import { checkBrokenStreaks } from '../utils/xp.js'
-import { getLevel } from '../data/levels.js'
+
 import { applyProgress } from '../utils/progress.js'
 
 export function useAppState() {
@@ -73,7 +73,7 @@ export function useAppState() {
     if (!changes.name?.trim() || !changes.unit?.trim() || !Number.isFinite(changes.target) || changes.target <= 0) return
     setState(prev => ({
       ...prev,
-      goals: prev.goals.map(g => g.id === id ? { ...g, ...changes } : g),
+      goals: prev.goals.map(g => g.id === id ? { ...g, ...changes, completedAt: g.current >= changes.target ? g.completedAt || new Date().toISOString() : null } : g),
     }))
   }, [setState])
 
@@ -145,8 +145,7 @@ export function useAppState() {
 
   const resetAll = useCallback(() => {
     if (window.confirm('¿Seguro que quieres borrar todo el progreso? Esta acción no se puede deshacer.')) {
-      localStorage.clear()
-      window.location.reload()
+      setState(prev => ({ ...DEFAULT_STATE, goals: [], notes: [], theme: prev.theme, createdAt: new Date().toISOString() }))
     }
   }, [])
 
@@ -168,4 +167,6 @@ export function useAppState() {
     resetAll,
   }
 }
+
+
 

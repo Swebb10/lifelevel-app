@@ -85,7 +85,7 @@ export default function NotesTab({ notes, onAdd, onDelete, onUpdate }) {
         <button
           onClick={() => { setForm(EMPTY_FORM); setEditingId(null); setShowForm(true) }}
           style={{
-            background: 'var(--accent)', color: '#000',
+            background: 'var(--accent)', color: 'var(--bg)',
             border: 'none', borderRadius: 'var(--radius-sm)',
             padding: '0 16px', fontSize: 13, cursor: 'pointer',
             fontFamily: "'DM Sans', sans-serif", whiteSpace: 'nowrap',
@@ -183,7 +183,7 @@ export default function NotesTab({ notes, onAdd, onDelete, onUpdate }) {
             <button
               onClick={handleSubmit}
               style={{
-                flex: 1, background: 'var(--accent)', color: '#000',
+                flex: 1, background: 'var(--accent)', color: 'var(--bg)',
                 border: 'none', borderRadius: 'var(--radius-sm)',
                 padding: '11px', fontSize: 13, cursor: 'pointer',
                 fontFamily: "'DM Sans', sans-serif",
@@ -217,7 +217,7 @@ export default function NotesTab({ notes, onAdd, onDelete, onUpdate }) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {filtered.map(note => {
-          const cat    = CATEGORIES[note.cat] || CATEGORIES.men
+          const cat    = CATEGORIES[note.cat] || CATEGORIES.otros
           const colors = COLOR_VAR[cat.color]
           return (
             <div
@@ -272,4 +272,6 @@ export default function NotesTab({ notes, onAdd, onDelete, onUpdate }) {
     </div>
   )
 }
+
+
 

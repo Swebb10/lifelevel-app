@@ -53,7 +53,6 @@ export function checkBrokenStreaks(goals) {
   return goals.map(goal => {
     if (!goal.lastUpdated) return goal
     const last = new Date(goal.lastUpdated)
-    const diffDays = Math.floor((now - last) / (1000 * 60 * 60 * 24))
 
     if (!isSameDay(last, now) && !isYesterday(last)) {
       // Racha rota
@@ -62,4 +61,5 @@ export function checkBrokenStreaks(goals) {
     return { ...goal, streakBroken: false }
   })
 }
+
 

@@ -38,7 +38,7 @@ export default function App() {
       <a className="brand" href="#" onClick={e => { e.preventDefault(); setTab('panel') }}><span className="brand-mark">L<span>↗</span></span>LifeLevel<span className="brand-dot">.</span></a>
       <p className="sidebar-label">TU CRECIMIENTO PERSONAL</p>
       <nav aria-label="Navegación principal">{NAV.map(item => <button key={item.id} className={`nav-item ${tab === item.id ? 'active' : ''}`} aria-current={tab === item.id ? 'page' : undefined} onClick={() => setTab(item.id)}><Icon name={item.icon}/><span>{item.label}</span>{tab === item.id && <i/>}</button>)}</nav>
-      <div className="sidebar-bottom"><div className="small-quote"><Icon name="star"/><p>Pequeños pasos.<br/><strong>Grandes cambios.</strong></p><span>Tu mejor versión se construye cada día.</span></div><button className="theme-toggle" onClick={app.toggleTheme}><Icon name={state.theme === 'dark' ? 'sun' : 'moon'}/><span>Tema {state.theme === 'dark' ? 'claro' : 'oscuro'}</span><span className="toggle-track"><i/></span></button><div className="local-label"><span/> Tu progreso, en este dispositivo</div></div>
+      <div className="sidebar-bottom"><div className="small-quote"><Icon name="star"/><p>Pequeños pasos.<br/><strong>Grandes cambios.</strong></p><span>Tu mejor versión se construye cada día.</span></div><button className="theme-toggle" aria-label={state.theme === 'dark' ? 'Activar tema claro' : 'Activar tema oscuro'} onClick={app.toggleTheme}><Icon name={state.theme === 'dark' ? 'sun' : 'moon'}/><span>Tema {state.theme === 'dark' ? 'claro' : 'oscuro'}</span><span className="toggle-track"><i/></span></button><div className="local-label"><span/> Tu progreso, en este dispositivo</div></div>
     </aside>
     <main className="main-content">
       <header className="page-header"><div><div className="eyebrow">UN POCO MEJOR, CADA DÍA</div><h1>{NAV.find(n => n.id === tab).label}<span>.</span></h1><p>{tab === 'panel' ? 'Haz espacio para lo que quieres lograr.' : tab === 'notas' ? 'Ideas, aprendizajes y recordatorios para tu camino.' : tab === 'logros' ? 'Cada paso que das merece ser reconocido.' : 'Una mirada a todo lo que estás construyendo.'}</p></div><div className="header-actions"><span className="date-label">{date}</span><button className="primary" onClick={() => setShowAdd(true)}><Icon name="plus" size={18}/>Nueva meta</button></div></header>
@@ -59,3 +59,4 @@ export default function App() {
     {toast && <Toast key={toast.id} message={toast.message} onDone={() => setToast(null)}/>}
   </div>
 }
+

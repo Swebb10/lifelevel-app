@@ -16,3 +16,4 @@ export default function GoalCard({ goal, onHabit, onDelete, onDetail }) {
     <div className="goal-card-footer"><span>{done ? '✓ Meta cumplida' : goal.streak > 0 ? `${goal.streak} días de constancia` : `${goal.xpBase} XP base`}</span>{daily && !done ? <button className="goal-action" disabled={doneToday} onClick={() => onHabit(goal.id)}>{doneToday ? '✓ Hecho hoy' : 'Marcar hoy +'} </button> : <button className="goal-action" onClick={() => onDetail(goal)}>{done ? 'Ver detalle' : 'Actualizar'} ↗</button>}</div>
   </article>
 }
+

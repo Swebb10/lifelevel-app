@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "test": "node --test tests/*.test.js",
     "build": "vite build",
+    "check:pwa": "npm run build && node scripts/check-pwa.mjs",
     "preview": "vite preview --host"
   },
   "dependencies": {
@@ -18,3 +20,5 @@
     "vite-plugin-pwa": "^0.19.2"
   }
 }
+
+

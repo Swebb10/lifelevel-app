@@ -83,7 +83,7 @@ export default function UpdateModal({ goal, onConfirm, onClose }) {
           style={{
             width: '100%',
             background: 'var(--accent)',
-            color: '#000',
+            color: 'var(--bg)',
             border: 'none',
             borderRadius: 'var(--radius-sm)',
             padding: '14px',
@@ -114,3 +114,4 @@ export default function UpdateModal({ goal, onConfirm, onClose }) {
     </div>
   )
 }
+

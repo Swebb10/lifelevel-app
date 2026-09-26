@@ -50,7 +50,7 @@ export default function AddGoalSheet({ onAdd, onClose }) {
   }
 
   return (
-    <div
+    <div className="modal-overlay"
       style={{
         position: 'fixed', inset: 0,
         background: 'rgba(0,0,0,0.75)',
@@ -214,7 +214,7 @@ export default function AddGoalSheet({ onAdd, onClose }) {
         <button
           onClick={handleSubmit}
           style={{
-            width: '100%', background: 'var(--accent)', color: '#000',
+            width: '100%', background: 'var(--accent)', color: 'var(--bg)',
             border: 'none', borderRadius: 'var(--radius-sm)',
             padding: '14px', fontSize: 14, fontWeight: 500,
             marginBottom: 10, fontFamily: "'DM Sans', sans-serif",
@@ -236,5 +236,7 @@ export default function AddGoalSheet({ onAdd, onClose }) {
     </div>
   )
 }
+
+
 
 

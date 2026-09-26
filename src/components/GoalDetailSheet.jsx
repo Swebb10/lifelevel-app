@@ -76,7 +76,7 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
   const tabs = ['detalle', 'notas', 'editar']
 
   return (
-    <div
+    <div className="modal-overlay"
       style={{
         position: 'fixed', inset: 0,
         background: 'rgba(0,0,0,0.75)',
@@ -200,7 +200,7 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
                 <button
                   onClick={handleUpdateProgress}
                   style={{
-                    background: 'var(--accent)', color: '#000',
+                    background: 'var(--accent)', color: 'var(--bg)',
                     border: 'none', borderRadius: 'var(--radius-sm)',
                     padding: '0 16px', fontSize: 13, fontWeight: 500,
                     cursor: 'pointer', fontFamily: "'DM Sans', sans-serif",
@@ -251,7 +251,7 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
                 <button
                   onClick={handleAddEntry}
                   style={{
-                    background: 'var(--accent)', color: '#000',
+                    background: 'var(--accent)', color: 'var(--bg)',
                     border: 'none', borderRadius: 'var(--radius-sm)',
                     padding: '0 16px', fontSize: 18, cursor: 'pointer',
                     flexShrink: 0,
@@ -331,6 +331,7 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
           {/* ── TAB: EDITAR ──────────────────────────── */}
           {tab === 'editar' && (
             <div>
+              {error && <p role="alert" style={{ color: 'var(--red)', marginBottom: 15 }}>{error}</p>}
               <div style={{ marginBottom: 14 }}>
                 <label style={labelStyle}>Nombre</label>
                 <input
@@ -413,7 +414,7 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
               <button
                 onClick={handleSaveEdit}
                 style={{
-                  width: '100%', background: 'var(--accent)', color: '#000',
+                  width: '100%', background: 'var(--accent)', color: 'var(--bg)',
                   border: 'none', borderRadius: 'var(--radius-sm)',
                   padding: '13px', fontSize: 14, fontWeight: 500,
                   marginBottom: 10, fontFamily: "'DM Sans', sans-serif", cursor: 'pointer',
@@ -438,4 +439,6 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
     </div>
   )
 }
+
+
 

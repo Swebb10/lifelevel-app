@@ -48,19 +48,34 @@ Verás algo así en la terminal:
 
 ## 📱 Instalar como app en el celular (PWA)
 
-Una vez abierta en el navegador del celular:
+La dirección de desarrollo `http://192.168.x.x:5173` permite probar la interfaz desde el WiFi, pero **no permite instalar una PWA correctamente**: el navegador del celular requiere HTTPS con un certificado válido. Crear un acceso directo no equivale a instalar la aplicación.
 
-**Android (Chrome):**
-- Toca los 3 puntos del menú
-- "Añadir a pantalla de inicio"
-- Se instala como app nativa
+### Preparar la versión instalable
 
-**iPhone (Safari):**
-- Toca el botón compartir (cuadrado con flecha)
-- "Añadir a pantalla de inicio"
+```bash
+npm ci
+npm run check:pwa
+```
+
+Publica el contenido de `dist/` en un alojamiento estático con HTTPS (por ejemplo, tu proyecto de Netlify, Vercel o Cloudflare Pages). Configura `npm run build` como comando de compilación y `dist` como directorio de salida. Sirve `manifest.webmanifest`, `sw.js`, `registerSW.js` y los iconos como archivos reales, sin redirigirlos a HTML. Usa un dominio estable para conservar la instalación y sus datos.
+
+`npm run preview` permite comprobar el build en la computadora usando localhost, pero acceder desde el celular por una IP HTTP sigue sin cumplir el requisito de HTTPS. El soporte PWA de desarrollo está habilitado para pruebas en localhost o HTTPS; no sustituye una publicación de producción.
+
+### Instalar
+
+- **Android / Chrome:** abre la dirección HTTPS publicada, recarga después de actualizar el sitio y utiliza el menú **Instalar aplicación**. Se abrirá en su propia ventana.
+- **iPhone / Safari:** abre la dirección HTTPS, pulsa **Compartir → Añadir a pantalla de inicio** y activa **Abrir como app** si aparece esa opción.
+- Tras la primera carga completa y la activación del service worker, la interfaz y los iconos quedan disponibles sin conexión. Las fuentes externas pueden sustituirse por las fuentes locales del sistema.
+
+Los datos se guardan por navegador y origen (protocolo, dominio y puerto). Cambiar de una IP HTTP a un dominio HTTPS no traslada automáticamente las metas ni las notas. No borres los datos del navegador ni la instalación anterior para intentar resolver un fallo de instalación.
+
+### Verificaciones
+
+`npm run check:pwa` comprueba el manifest de producción, los tamaños reales de los PNG, el registro del service worker y la inclusión de los archivos en la caché sin conexión. La instalación final debe probarse en el navegador del celular desde la URL HTTPS publicada.
+
+Los iconos se versionan en `public/`. Para regenerar el monograma en Windows: `powershell -File scripts/generate-icons.ps1`.
 
 ---
-
 ## 🏗️ Estructura del proyecto
 
 ```
@@ -150,3 +165,4 @@ npm run preview  # Vista previa del build de producción
 - **Cambiar colores del tema**: edita las variables en `src/index.css`
 - **Agregar categorías**: edita `src/data/goalTypes.js`
 - **Ajustar XP de niveles**: edita `src/data/levels.js`
+

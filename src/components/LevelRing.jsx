@@ -44,3 +44,4 @@ export default function LevelRing({ pct, levelN }) {
     </div>
   )
 }
+
