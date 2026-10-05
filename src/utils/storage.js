@@ -1,3 +1,5 @@
+import { createFinance, normalizeFinance } from './finance.js'
+
 const KEY = 'lifelevel_v1'
 
 export const DEFAULT_STATE = {
@@ -12,13 +14,15 @@ export const DEFAULT_STATE = {
   nextGoalId: 1,
   nextNoteId: 1,
   seenRewards: [],
+  finance: createFinance(),
 }
 
 export function loadState() {
   try {
     const raw = localStorage.getItem(KEY)
     if (!raw) return { ...DEFAULT_STATE }
-    return { ...DEFAULT_STATE, ...JSON.parse(raw) }
+    const saved = JSON.parse(raw)
+    return { ...DEFAULT_STATE, ...saved, finance: normalizeFinance(saved?.finance) }
   } catch {
     return { ...DEFAULT_STATE }
   }
@@ -27,8 +31,10 @@ export function loadState() {
 export function saveState(state) {
   try {
     localStorage.setItem(KEY, JSON.stringify(state))
+    return true
   } catch (e) {
     console.warn('No se pudo guardar en localStorage', e)
+    return false
   }
 }
 

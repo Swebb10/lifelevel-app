@@ -3,8 +3,10 @@ import { loadState, saveState, DEFAULT_STATE } from '../utils/storage.js'
 import { checkBrokenStreaks } from '../utils/xp.js'
 
 import { applyProgress } from '../utils/progress.js'
+import { applyFinance } from '../utils/finance.js'
 
 export function useAppState() {
+  const [storageError, setStorageError] = useState(false)
   const [state, setStateRaw] = useState(() => {
     const s = loadState()
     // Al cargar, verificar rachas rotas
@@ -13,7 +15,7 @@ export function useAppState() {
 
   // Persistir en localStorage cada vez que cambia el estado
   useEffect(() => {
-    saveState(state)
+    setStorageError(!saveState(state))
   }, [state])
 
   // Aplicar tema al document
@@ -139,18 +141,25 @@ export function useAppState() {
   }, [setState])
 
   // ── Tema y reset ───────────────────────────────────────────
+  const financeAction = useCallback((action) => {
+    // Validate before closing a form; each action is an atomic ledger change.
+    const finance = applyFinance(state.finance, action)
+    setState(prev => ({ ...prev, finance }))
+  }, [state.finance, setState])
   const toggleTheme = useCallback(() => {
     setState(prev => ({ ...prev, theme: prev.theme === 'dark' ? 'light' : 'dark' }))
   }, [setState])
 
   const resetAll = useCallback(() => {
-    if (window.confirm('¿Seguro que quieres borrar todo el progreso? Esta acción no se puede deshacer.')) {
+    if (window.confirm('¿Seguro que quieres borrar todo, incluidas tus metas, notas y finanzas? Esta acción no se puede deshacer.')) {
       setState(prev => ({ ...DEFAULT_STATE, goals: [], notes: [], theme: prev.theme, createdAt: new Date().toISOString() }))
     }
   }, [])
 
   return {
     state,
+    storageError,
+    financeAction,
     addGoal,
     deleteGoal,
     editGoal,
@@ -167,6 +176,3 @@ export function useAppState() {
     resetAll,
   }
 }
-
-
-

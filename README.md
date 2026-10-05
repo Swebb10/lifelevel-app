@@ -166,3 +166,20 @@ npm run preview  # Vista previa del build de producción
 - **Agregar categorías**: edita `src/data/goalTypes.js`
 - **Ajustar XP de niveles**: edita `src/data/levels.js`
 
+
+## Finanzas personales
+
+La pestaña **Finanzas** permite llevar manualmente dinero propio en cuentas/tarjetas de débito, billeteras digitales y efectivo. Se guarda junto con tus metas y notas en el mismo navegador; no conecta cuentas bancarias.
+
+- **CRC y USD:** cada moneda tiene su propio total. No hay conversión automática ni suma de monedas distintas.
+- **Cuentas:** añade el saldo inicial y registra después ingresos, gastos o transferencias. Editar el saldo inicial corrige el punto de partida; no reemplaza el saldo actual calculado. No incluyas el límite de crédito como dinero disponible.
+- **Movimientos:** las transferencias entre cuentas de la misma moneda conservan el total y no cuentan como ingresos/gastos. Puedes buscar, filtrar por mes/tipo, exportar CSV o eliminar un registro incorrecto; se recalculan los saldos.
+- **Gastos fijos:** define monto, día de vencimiento y mes inicial. Registra el pago eligiendo una cuenta; crea un gasto una sola vez por obligación y mes. Eliminar ese movimiento deja el pago pendiente otra vez. Los vencimientos 29–31 se ajustan al último día de los meses cortos. Editar un gasto modifica su planificación, pero no los importes de los pagos ya registrados.
+- **Ahorros:** define una compra/objetivo y aparta dinero desde tus cuentas. Apartar no es un gasto ni una transferencia real: el dinero sigue en la cuenta y en el saldo total. Puedes liberarlo antes de usarlo o transferirlo. Una fecha objetivo permite estimar el aporte mensual pendiente contando ambos meses extremos.
+- **Disponible hoy:** saldo actual menos dinero apartado y gastos fijos pendientes del mes actual. No es una proyección de ingresos futuros ni incluye automáticamente deudas de meses anteriores; puedes consultar cada mes con el selector.
+- **Plan mensual:** suma los gastos fijos del mes seleccionado y el ahorro que falta, repartido hasta cada fecha objetivo. Los objetivos sin fecha no generan una cuota. El saldo y las reservas siempre son actuales; el selector de mes cambia la planificación y los movimientos, no reconstruye saldos históricos.
+- **Copia de datos:** el botón de descarga guarda todas las finanzas en JSON; el CSV exporta los movimientos de la vista filtrada. El JSON se entrega como copia de datos, sin importador dentro de la interfaz por ahora.
+
+Los montos se almacenan como enteros en céntimos/centavos. Se bloquean saldos negativos, pagos duplicados y el uso de dinero reservado. Las cuentas con movimientos no se pueden eliminar para conservar las referencias del historial. Restablecer la app borra también las finanzas y requiere confirmación.
+
+`npm test` incluye pruebas de conservación de saldos, monedas, reservas, recurrencias, eliminación de movimientos, fechas, migración de datos y persistencia. `npm run check:pwa` verifica también el build instalable.
