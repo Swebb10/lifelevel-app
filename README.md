@@ -162,10 +162,16 @@ npm run preview  # Vista previa del build de producción
 ## ✏️ Personalizar
 
 - **Agregar mensajes motivacionales**: edita `src/data/rewards.js`
-- **Cambiar colores del tema**: edita las variables en `src/index.css`
+- **Cambiar colores del tema**: edita las paletas en `src/themes.css`
 - **Agregar categorías**: edita `src/data/goalTypes.js`
 - **Ajustar XP de niveles**: edita `src/data/levels.js`
 
+
+## Temas
+
+Abre **Temas** desde el menú para ver y elegir entre seis paletas: Oscuro, Claro, Cyberpunk, Océano, Atardecer y Lavanda. La vista previa se aplica al instante y la elección se conserva al cerrar o recargar la app. También se adapta el color de la barra del navegador y de los controles nativos.
+
+Las pruebas de las paletas verifican un contraste mínimo de 4,5:1 para los textos evaluados y de 3:1 para los bordes de los controles. El selector funciona con teclado, permite cerrar con Escape y se adapta a pantallas móviles.
 
 ## Finanzas personales
 

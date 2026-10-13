@@ -1,0 +1,179 @@
+/* Shared tokens: each preview uses the same palette as the live application. */
+:root, .theme-preview[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #101211;
+  --bg2: #151816;
+  --bg3: #202420;
+  --surface: #191d1a;
+  --hero: #20281f;
+  --border: #2a302a;
+  --border2: #778575;
+  --border3: #8a9986;
+  --text: #f0f1e9;
+  --text2: #c0c9bb;
+  --text3: #a5b2a3;
+  --accent: #d1dfaa;
+  --accent2: #b1c887;
+  --accent-bg: #d1dfaa12;
+  --accent-border: #d1dfaa70;
+  --green: #a2cfa8;
+  --green-bg: #a2cfa816;
+  --blue: #acc8e6;
+  --blue-bg: #acc8e616;
+  --red: #f3a59c;
+  --red-bg: #f3a59c14;
+  --purple: #c7b0e8;
+  --purple-bg: #c7b0e816;
+  --radius: 18px;
+  --radius-sm: 10px;
+  --shadow: 0 4px 18px #00000008;
+}
+:root[data-theme="light"], .theme-preview[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f6f7f2;
+  --bg2: #ffffff;
+  --bg3: #eef1e9;
+  --surface: #ffffff;
+  --hero: #eaf0df;
+  --border: #d6dece;
+  --border2: #748169;
+  --border3: #59674e;
+  --text: #263123;
+  --text2: #465542;
+  --text3: #52624e;
+  --accent: #3c572a;
+  --accent2: #4b6534;
+  --accent-bg: #3c572a0c;
+  --accent-border: #3c572a70;
+  --green: #28613b;
+  --green-bg: #28613b12;
+  --blue: #295a8a;
+  --blue-bg: #295a8a12;
+  --red: #a73730;
+  --red-bg: #a7373012;
+  --purple: #6c478b;
+  --purple-bg: #6c478b12;
+  --shadow: 0 4px 18px #28332008;
+}
+:root[data-theme="cyberpunk"], .theme-preview[data-theme="cyberpunk"] {
+  color-scheme: dark;
+  --bg: #0c0914;
+  --bg2: #110e1d;
+  --bg3: #211a30;
+  --surface: #181321;
+  --hero: #1b1530;
+  --border: #3b2e50;
+  --border2: #8878a4;
+  --border3: #b6a1d4;
+  --text: #f8f3ff;
+  --text2: #d9cce8;
+  --text3: #b9abce;
+  --accent: #eeff55;
+  --accent2: #98f5e1;
+  --accent-bg: #eeff550c;
+  --accent-border: #eeff5570;
+  --green: #8af2b5;
+  --green-bg: #8af2b512;
+  --blue: #67e8f9;
+  --blue-bg: #67e8f912;
+  --red: #ffaaa7;
+  --red-bg: #ffaaa712;
+  --purple: #f5a2fa;
+  --purple-bg: #f5a2fa12;
+  --shadow: 0 4px 22px #00000018;
+}
+:root[data-theme="ocean"], .theme-preview[data-theme="ocean"] {
+  color-scheme: dark;
+  --bg: #09151e;
+  --bg2: #0d1d28;
+  --bg3: #182d3b;
+  --surface: #112330;
+  --hero: #133240;
+  --border: #284351;
+  --border2: #829fa9;
+  --border3: #a0c0c8;
+  --text: #edf8fa;
+  --text2: #c0d9df;
+  --text3: #a6c3ce;
+  --accent: #80e6d3;
+  --accent2: #9bcee9;
+  --accent-bg: #80e6d30c;
+  --accent-border: #80e6d370;
+  --green: #9fe4bd;
+  --green-bg: #9fe4bd12;
+  --blue: #abd4ff;
+  --blue-bg: #abd4ff12;
+  --red: #ffb4ac;
+  --red-bg: #ffb4ac12;
+  --purple: #d3bdf9;
+  --purple-bg: #d3bdf912;
+  --shadow: 0 4px 22px #00000016;
+}
+:root[data-theme="sunset"], .theme-preview[data-theme="sunset"] {
+  color-scheme: dark;
+  --bg: #1c1119;
+  --bg2: #231720;
+  --bg3: #352330;
+  --surface: #2b1c28;
+  --hero: #3a2531;
+  --border: #543b47;
+  --border2: #a18895;
+  --border3: #c9acb9;
+  --text: #fff2eb;
+  --text2: #ebcfd0;
+  --text3: #d2b5bd;
+  --accent: #ffcb91;
+  --accent2: #f7b1aa;
+  --accent-bg: #ffcb910c;
+  --accent-border: #ffcb9170;
+  --green: #bbe0a7;
+  --green-bg: #bbe0a712;
+  --blue: #b6d8fa;
+  --blue-bg: #b6d8fa12;
+  --red: #ffb2ae;
+  --red-bg: #ffb2ae12;
+  --purple: #dfbaf4;
+  --purple-bg: #dfbaf412;
+  --shadow: 0 4px 22px #00000016;
+}
+:root[data-theme="lavender"], .theme-preview[data-theme="lavender"] {
+  color-scheme: light;
+  --bg: #f5f2fb;
+  --bg2: #ffffff;
+  --bg3: #eee8f5;
+  --surface: #ffffff;
+  --hero: #eae0f4;
+  --border: #d9cce6;
+  --border2: #877495;
+  --border3: #6d5880;
+  --text: #2d213d;
+  --text2: #4d3b62;
+  --text3: #604b73;
+  --accent: #63378e;
+  --accent2: #7c4792;
+  --accent-bg: #63378e0c;
+  --accent-border: #63378e70;
+  --green: #285d40;
+  --green-bg: #285d4010;
+  --blue: #285381;
+  --blue-bg: #28538110;
+  --red: #9d2c3e;
+  --red-bg: #9d2c3e10;
+  --purple: #66368b;
+  --purple-bg: #66368b10;
+  --shadow: 0 4px 22px #3f25580a;
+}
+/* Neon is limited to accents; body copy and form values stay crisp. */
+:root[data-theme="cyberpunk"] .hero,
+:root[data-theme="cyberpunk"] .finance-hero {
+  box-shadow: inset 3px 0 0 var(--blue), inset -3px 0 0 var(--purple), 0 8px 30px #00000028;
+}
+:root[data-theme="cyberpunk"] .brand-mark {
+  border-radius: 4px 12px 4px 12px;
+}
+:root[data-theme="cyberpunk"] .nav-item.active {
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+/* Form boundaries remain visible against every surface. */
+.search-input { border-color: var(--border2); }
+input::placeholder, textarea::placeholder { opacity: 1; }

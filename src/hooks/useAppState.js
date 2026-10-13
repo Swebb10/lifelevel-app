@@ -4,6 +4,7 @@ import { checkBrokenStreaks } from '../utils/xp.js'
 
 import { applyProgress } from '../utils/progress.js'
 import { applyFinance } from '../utils/finance.js'
+import { applyTheme, getTheme } from '../data/themes.js'
 
 export function useAppState() {
   const [storageError, setStorageError] = useState(false)
@@ -20,8 +21,7 @@ export function useAppState() {
 
   // Aplicar tema al document
   useEffect(() => {
-    document.documentElement.classList.toggle('light', state.theme === 'light')
-    document.querySelector('meta[name=theme-color]')?.setAttribute('content', state.theme === 'light' ? '#f6f7f2' : '#101211')
+    applyTheme(state.theme)
   }, [state.theme])
 
   const setState = useCallback((updater) => {
@@ -146,8 +146,8 @@ export function useAppState() {
     const finance = applyFinance(state.finance, action)
     setState(prev => ({ ...prev, finance }))
   }, [state.finance, setState])
-  const toggleTheme = useCallback(() => {
-    setState(prev => ({ ...prev, theme: prev.theme === 'dark' ? 'light' : 'dark' }))
+  const setTheme = useCallback((themeId) => {
+    setState(prev => ({ ...prev, theme: getTheme(themeId).id }))
   }, [setState])
 
   const resetAll = useCallback(() => {
@@ -172,7 +172,7 @@ export function useAppState() {
     addNote,
     deleteNote,
     updateNote,
-    toggleTheme,
+    setTheme,
     resetAll,
   }
 }

@@ -1,4 +1,5 @@
 import { createFinance, normalizeFinance } from './finance.js'
+import { getTheme } from '../data/themes.js'
 
 const KEY = 'lifelevel_v1'
 
@@ -22,7 +23,7 @@ export function loadState() {
     const raw = localStorage.getItem(KEY)
     if (!raw) return { ...DEFAULT_STATE }
     const saved = JSON.parse(raw)
-    return { ...DEFAULT_STATE, ...saved, finance: normalizeFinance(saved?.finance) }
+    return { ...DEFAULT_STATE, ...saved, theme: getTheme(saved?.theme).id, finance: normalizeFinance(saved?.finance) }
   } catch {
     return { ...DEFAULT_STATE }
   }

@@ -9,6 +9,7 @@ import AddGoalSheet from './components/AddGoalSheet.jsx'
 import GoalDetailSheet from './components/GoalDetailSheet.jsx'
 import NotesTab from './components/NotesTab.jsx'
 import Toast from './components/Toast.jsx'
+import ThemePicker from './components/ThemePicker.jsx'
 import FinanceTab from './components/finance/FinanceTab.jsx'
 
 const NAV = [{ id: 'panel', label: 'Mi espacio', icon: 'grid' }, { id: 'finanzas', label: 'Finanzas', icon: 'wallet' }, { id: 'notas', label: 'Mis notas', icon: 'note' }, { id: 'logros', label: 'Logros', icon: 'star' }, { id: 'stats', label: 'Estadísticas', icon: 'chart' }]
@@ -39,7 +40,7 @@ export default function App() {
       <a className="brand" href="#" onClick={e => { e.preventDefault(); setTab('panel') }}><span className="brand-mark">L<span>↗</span></span>LifeLevel<span className="brand-dot">.</span></a>
       <p className="sidebar-label">TU CRECIMIENTO PERSONAL</p>
       <nav aria-label="Navegación principal">{NAV.map(item => <button key={item.id} className={`nav-item ${tab === item.id ? 'active' : ''}`} aria-current={tab === item.id ? 'page' : undefined} onClick={() => setTab(item.id)}><Icon name={item.icon}/><span>{item.label}</span>{tab === item.id && <i/>}</button>)}</nav>
-      <div className="sidebar-bottom"><div className="small-quote"><Icon name="star"/><p>Pequeños pasos.<br/><strong>Grandes cambios.</strong></p><span>Tu mejor versión se construye cada día.</span></div><button className="theme-toggle" aria-label={state.theme === 'dark' ? 'Activar tema claro' : 'Activar tema oscuro'} onClick={app.toggleTheme}><Icon name={state.theme === 'dark' ? 'sun' : 'moon'}/><span>Tema {state.theme === 'dark' ? 'claro' : 'oscuro'}</span><span className="toggle-track"><i/></span></button><div className="local-label"><span/> Tu progreso, en este dispositivo</div></div>
+      <div className="sidebar-bottom"><div className="small-quote"><Icon name="star"/><p>Pequeños pasos.<br/><strong>Grandes cambios.</strong></p><span>Tu mejor versión se construye cada día.</span></div><ThemePicker themeId={state.theme} onSelect={app.setTheme} /><div className="local-label"><span/> Tu progreso, en este dispositivo</div></div>
     </aside>
     <main className="main-content">
       {app.storageError && <p role="alert" className="finance-error">No se pudieron guardar los cambios en este navegador. Mantén la app abierta y descarga una copia de tus finanzas antes de recargar.</p>}
