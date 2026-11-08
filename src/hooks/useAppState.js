@@ -6,13 +6,20 @@ import { applyProgress } from '../utils/progress.js'
 import { applyFinance } from '../utils/finance.js'
 import { applyTheme, getTheme } from '../data/themes.js'
 import { toDateStr } from '../utils/storage.js'
+import { getGoalStreakSummary, shiftDay } from '../utils/goalStreak.js'
 
 export function useAppState() {
   const [storageError, setStorageError] = useState(false)
   const [state, setStateRaw] = useState(() => {
     const s = loadState()
     // Al cargar, verificar rachas rotas
-    return { ...s, goals: checkBrokenStreaks(s.goals) }
+    const goals = checkBrokenStreaks(s.goals).map(goal => {
+      const current = getGoalStreakSummary(goal.dailyRecords).current
+      const today = toDateStr()
+      const mostRecentStatus = goal.dailyRecords?.[today] || goal.dailyRecords?.[shiftDay(today, -1)]
+      return { ...goal, streak: current, streakBroken: mostRecentStatus === 'missed' || (!!goal.streakBroken && !mostRecentStatus) }
+    })
+    return { ...s, goals }
   })
 
   // Persistir en localStorage cada vez que cambia el estado
@@ -44,6 +51,7 @@ export function useAppState() {
           ...goalData,
           current:     0,
           streak:      0,
+          dailyRecords: {},
           lastUpdated: null,
           createdAt:   new Date().toISOString(),
           completedAt: null,
@@ -67,14 +75,30 @@ export function useAppState() {
   const markHabitDone = useCallback((id) => {
     setState(prev => applyProgress(prev, id, null, true))
   }, [setState])
-  const markPersonalStreakDay = useCallback((date, status) => {
+  const markGoalStreakDay = useCallback((id, date, status) => {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || toDateStr(new Date(`${date}T12:00:00`)) !== date || date > toDateStr()) return
     if (status !== null && !['kept', 'missed'].includes(status)) return
     setState(prev => {
-      const records = { ...(prev.personalStreak?.records || {}) }
+      const goal = prev.goals.find(item => item.id === id)
+      if (!goal) return prev
+
+      if (status === 'kept' && date === toDateStr() && ['habit', 'streak'].includes(goal.type) && goal.current < goal.target && (!goal.lastUpdated || toDateStr(new Date(goal.lastUpdated)) !== date)) {
+        return applyProgress(prev, id, null, true)
+      }
+
+      const records = { ...(goal.dailyRecords || {}) }
       if (status === null) delete records[date]
       else records[date] = status
-      return { ...prev, personalStreak: { records } }
+      const summary = getGoalStreakSummary(records)
+      const mostRecentStatus = records[toDateStr()] || records[shiftDay(toDateStr(), -1)]
+      const current = goal.type === 'streak' ? Math.min(goal.target, summary.current) : goal.current
+      return { ...prev, goals: prev.goals.map(item => item.id === id ? {
+        ...item,
+        dailyRecords: records,
+        streak: summary.current,
+        streakBroken: mostRecentStatus === 'missed' || (!mostRecentStatus && item.streakBroken),
+        ...(goal.type === 'streak' ? { current, completedAt: current >= goal.target ? goal.completedAt || new Date().toISOString() : null } : {}),
+      } : item) }
     })
   }, [setState])
   const clearPendingLevelUp = useCallback(() => {
@@ -176,7 +200,7 @@ export function useAppState() {
     editGoal,
     updateGoalProgress,
     markHabitDone,
-    markPersonalStreakDay,
+    markGoalStreakDay,
     clearPendingLevelUp,
     saveGoalNote,
     addGoalEntry,

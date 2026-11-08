@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { getPersonalStreakSummary } from '../utils/personalStreak.js'
+import { getGoalStreakSummary } from '../utils/goalStreak.js'
 import { toDateStr } from '../utils/storage.js'
-import './PersonalStreak.css'
+import './GoalStreak.css'
 
 const WEEKDAYS = ['L', 'M', 'X', 'J', 'V', 'S', 'D']
 const weekdayNames = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo']
@@ -17,12 +17,12 @@ function monthCells(month) {
   return [...Array(startOffset).fill(null), ...Array.from({ length: days }, (_, i) => i + 1)]
 }
 
-export default function PersonalStreak({ records = {}, onMark }) {
+export default function GoalStreak({ goalName, records = {}, onMark }) {
   const today = toDateStr()
   const now = new Date()
   const [month, setMonth] = useState(() => new Date(now.getFullYear(), now.getMonth(), 1, 12))
   const [selectedDate, setSelectedDate] = useState(today)
-  const { current, best } = getPersonalStreakSummary(records, today)
+  const { current, best } = getGoalStreakSummary(records, today)
   const cells = monthCells(month)
   const selectedStatus = records[selectedDate]
   const selectedLabel = selectedDate === today ? 'Hoy' : longDate(selectedDate)
@@ -39,8 +39,8 @@ export default function PersonalStreak({ records = {}, onMark }) {
     <div className="personal-streak-intro">
       <div className="personal-streak-copy">
         <span className="eyebrow">UN DÍA A LA VEZ</span>
-        <h2 id="personal-streak-title">Mi constancia</h2>
-        <p>Registra los días que cumpliste y aquellos en que no. Puedes elegir cualquier fecha pasada para completar o corregir tu calendario.</p>
+        <h2 id="personal-streak-title">Constancia de {goalName}</h2>
+        <p>Registra los días que cumpliste esta meta y aquellos en que no. Puedes elegir cualquier fecha pasada para completar o corregir su calendario.</p>
       </div>
       <div className="personal-streak-stats" aria-label="Resumen de racha">
         <div className="personal-streak-stat"><strong>{current}</strong><span>Racha actual</span><small>días seguidos</small></div>

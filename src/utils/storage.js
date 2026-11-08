@@ -1,6 +1,6 @@
 import { createFinance, normalizeFinance } from './finance.js'
 import { getTheme } from '../data/themes.js'
-import { normalizePersonalStreak } from './personalStreak.js'
+import { normalizeGoalDayRecords } from './goalStreak.js'
 
 const KEY = 'lifelevel_v1'
 
@@ -10,7 +10,6 @@ export const DEFAULT_STATE = {
   currentLevel: 1,
   goals: [],
   notes: [],
-  personalStreak: { records: {} },
   theme: 'dark',
   createdAt: new Date().toISOString(),
   lastSeen: null,
@@ -25,7 +24,7 @@ export function loadState() {
     const raw = localStorage.getItem(KEY)
     if (!raw) return { ...DEFAULT_STATE }
     const saved = JSON.parse(raw)
-    return { ...DEFAULT_STATE, ...saved, theme: getTheme(saved?.theme).id, personalStreak: normalizePersonalStreak(saved?.personalStreak), finance: normalizeFinance(saved?.finance) }
+    return { ...DEFAULT_STATE, ...saved, theme: getTheme(saved?.theme).id, goals: normalizeGoalDayRecords(saved?.goals), finance: normalizeFinance(saved?.finance) }
   } catch {
     return { ...DEFAULT_STATE }
   }

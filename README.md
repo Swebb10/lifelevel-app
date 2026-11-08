@@ -84,7 +84,7 @@ lifelevel-app/
 │   ├── components/
 │   │   ├── LevelRing.jsx      ← El anillo SVG animado de nivel
 │   │   ├── GoalCard.jsx       ← Tarjeta de cada meta
-│   │   ├── PersonalStreak.jsx ← Calendario personal de constancia
+│   │   ├── GoalStreak.jsx     ← Calendario de constancia de cada meta
 │   │   ├── UpdateModal.jsx    ← Sheet para actualizar progreso
 │   │   ├── RewardModal.jsx    ← Modal de recompensa al subir nivel
 │   │   ├── AddGoalSheet.jsx   ← Formulario para crear metas
@@ -175,7 +175,7 @@ Abre **Temas** desde el menú para ver y elegir entre siete paletas: Oscuro, Cla
 
 Las pruebas de las paletas verifican un contraste mínimo de 4,5:1 para los textos evaluados y de 3:1 para los bordes de los controles. El selector funciona con teclado, permite cerrar con Escape y se adapta a pantallas móviles.
 
-La sección **Mi constancia** permite marcar cada día del calendario como cumplido o no cumplido, corregir fechas anteriores y consultar la racha actual y la mejor racha registrada. Los días sin registrar no cuentan como cumplidos.
+El detalle de cada meta incluye su propio calendario de constancia. Puedes marcar o corregir días y consultar la racha actual y la mejor racha de esa meta. Los días sin registrar no cuentan como cumplidos.
 
 ## Finanzas personales
 

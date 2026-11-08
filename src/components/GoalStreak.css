@@ -48,6 +48,12 @@
 .streak-mark-button.kept b { color: var(--green); }
 .streak-mark-button.missed b { color: var(--red); }
 .streak-clear-button { min-height: 42px; padding: 0 8px; border-radius: 8px; background: transparent; color: var(--text2); font-size: 10px; text-decoration: underline; text-underline-offset: 3px; }
+.goal-card-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.goal-detail-scroll .personal-streak { grid-template-columns: 1fr; gap: 20px; padding: 18px; }
+.goal-detail-scroll .personal-streak-actions { grid-column: auto; align-items: flex-start; flex-direction: column; }
+.goal-detail-scroll .streak-mark-buttons { width: 100%; }
+.goal-detail-scroll .streak-mark-button { flex: 1; padding-inline: 8px; }
+.goal-detail-scroll .streak-clear-button { width: 100%; }
 @media (max-width: 1000px) {
   .personal-streak { grid-template-columns: 1fr 1fr; gap: 24px; padding: 22px; }
 }

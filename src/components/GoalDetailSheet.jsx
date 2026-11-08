@@ -2,6 +2,7 @@ import { useDialog } from '../hooks/useDialog.js'
 import React, { useState } from 'react'
 import { CATEGORIES, GOAL_TYPES, XP_TIERS } from '../data/goalTypes.js'
 import { toDateStr } from '../utils/storage.js'
+import GoalStreak from './GoalStreak.jsx'
 
 const inputStyle = {
   width: '100%',
@@ -25,7 +26,7 @@ const sectionTitle = {
   fontFamily: "'DM Mono', monospace",
 }
 
-export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, onAddEntry, onDeleteEntry, onUpdateProgress, onHabit }) {
+export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, onAddEntry, onDeleteEntry, onUpdateProgress, onHabit, onMarkDay }) {
   const dialogRef = useDialog(onClose)
   const [tab, setTab]           = useState('detalle')
   const [error, setError] = useState('')
@@ -38,6 +39,7 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
   const cat    = CATEGORIES[goal.cat] || CATEGORIES.fin
   const pct    = Math.min(100, Math.round((goal.current / goal.target) * 100))
   const isDone = goal.current >= goal.target
+  const todayStatus = goal.dailyRecords?.[toDateStr()]
   const entries = goal.entries || []
 
   const handleSaveEdit = () => {
@@ -151,7 +153,7 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
         </div>
 
         {/* Scrollable content */}
-        <div style={{ overflowY: 'auto', padding: '0 20px 40px', flex: 1 }}>
+        <div className="goal-detail-scroll" style={{ overflowY: 'auto', padding: '0 20px 40px', flex: 1 }}>
 
           {/* ── TAB: DETALLE ─────────────────────────── */}
           {tab === 'detalle' && (
@@ -183,8 +185,10 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
                 )}
               </div>
 
+              <GoalStreak goalName={goal.name} records={goal.dailyRecords || {}} onMark={(date, status) => onMarkDay(goal.id, date, status)} />
+
               {/* Actualizar progreso numérico */}
-              {['habit', 'streak'].includes(goal.type) ? <button className="primary" style={{ marginBottom: 20 }} disabled={isDone || !!(goal.lastUpdated && toDateStr(new Date(goal.lastUpdated)) === toDateStr())} onClick={() => onHabit(goal.id)}>{isDone ? 'Meta cumplida' : goal.lastUpdated && toDateStr(new Date(goal.lastUpdated)) === toDateStr() ? '✓ Hecho hoy' : 'Marcar hábito de hoy'}</button> : <>
+              {['habit', 'streak'].includes(goal.type) ? <button className="primary" style={{ marginBottom: 20 }} disabled={isDone || todayStatus === 'missed' || !!(goal.lastUpdated && toDateStr(new Date(goal.lastUpdated)) === toDateStr())} onClick={() => onHabit(goal.id)}>{isDone ? 'Meta cumplida' : todayStatus === 'missed' ? 'No cumplido hoy' : goal.lastUpdated && toDateStr(new Date(goal.lastUpdated)) === toDateStr() ? '✓ Hecho hoy' : 'Marcar hábito de hoy'}</button> : <>
               <div style={sectionTitle}>Actualizar progreso</div>
               <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
                 <input
@@ -214,7 +218,6 @@ export default function GoalDetailSheet({ goal, onClose, onUpdate, onSaveNote, o
               {/* Stats grid */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
                 {[
-                  { label: 'Racha actual',    val: `${goal.streak || 0} días` },
                   { label: 'XP base',         val: `${goal.xpBase} XP` },
                   { label: 'Restante',        val: `${+(goal.target - goal.current).toFixed(2)} ${goal.unit}` },
                   { label: 'Creada',          val: goal.createdAt ? new Date(goal.createdAt).toLocaleDateString('es-CR') : '—' },
