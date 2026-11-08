@@ -138,27 +138,29 @@
 }
 :root[data-theme="crimson"], .theme-preview[data-theme="crimson"] {
   color-scheme: dark;
-  --bg: #0d080a;
-  --bg2: #160d11;
-  --bg3: #2a181d;
-  --surface: #1d1116;
-  --hero: #341a21;
-  --border: #4a2831;
-  --border2: #a87f88;
-  --border3: #d2aab1;
-  --text: #fff3f4;
-  --text2: #f0d5d9;
-  --text3: #d6b8bf;
-  --accent: #ff8b98;
-  --accent2: #ef6476;
-  --accent-bg: #ff8b9812;
-  --accent-border: #ff8b9870;
+  --bg: #050505;
+  --bg2: #0a0a0a;
+  --bg3: #171717;
+  --surface: #101010;
+  --hero: #1d080b;
+  --border: #321014;
+  --border2: #9c5158;
+  --border3: #c98289;
+  --text: #f5f5f5;
+  --text2: #d9d6d6;
+  --text3: #b8b0b1;
+  --accent: #ff3342;
+  --accent2: #e50914;
+  --button-accent: #e50914;
+  --on-accent: #ffffff;
+  --accent-bg: #ff334212;
+  --accent-border: #ff334270;
   --green: #a0e2b8;
   --green-bg: #a0e2b812;
   --blue: #b2d4ff;
   --blue-bg: #b2d4ff12;
-  --red: #ffadb3;
-  --red-bg: #ffadb312;
+  --red: #ff5965;
+  --red-bg: #ff596512;
   --purple: #d7b7ff;
   --purple-bg: #d7b7ff12;
   --shadow: 0 4px 22px #3f25580a;
@@ -207,7 +209,7 @@
 }
 :root[data-theme="crimson"] .hero,
 :root[data-theme="crimson"] .finance-hero {
-  background: linear-gradient(125deg, #160d10 0%, #2c131a 55%, #441a22 100%);
+  background: linear-gradient(125deg, #060606 0%, #170609 55%, #27080d 100%);
 }
 :root[data-theme="ps2"] .hero,
 :root[data-theme="ps2"] .finance-hero {

@@ -5,7 +5,7 @@ export const THEMES = [
   { id: 'cyberpunk', name: 'Cyberpunk', description: 'Neón sobre medianoche', mode: 'dark', background: '#0c0914' },
   { id: 'ocean', name: 'Océano', description: 'Azul profundo y turquesa', mode: 'dark', background: '#09151e' },
   { id: 'graphite', name: 'Gris', description: 'Negro, grafito y plata', mode: 'dark', background: '#090a0c' },
-  { id: 'crimson', name: 'Rojo', description: 'Negro y rojo profundo', mode: 'dark', background: '#0d080a' },
+  { id: 'crimson', name: 'Rojo', description: 'Negro y rojo profundo', mode: 'dark', background: '#050505' },
   { id: 'ps2', name: 'PS2', description: 'Negro, azul noche y violeta', mode: 'dark', background: '#080a13' },
 ]
 const LEGACY_THEMES = { sunset: 'crimson', lavender: 'ps2' }
