@@ -1,5 +1,6 @@
 import { createFinance, normalizeFinance } from './finance.js'
 import { getTheme } from '../data/themes.js'
+import { normalizePersonalStreak } from './personalStreak.js'
 
 const KEY = 'lifelevel_v1'
 
@@ -9,6 +10,7 @@ export const DEFAULT_STATE = {
   currentLevel: 1,
   goals: [],
   notes: [],
+  personalStreak: { records: {} },
   theme: 'dark',
   createdAt: new Date().toISOString(),
   lastSeen: null,
@@ -23,7 +25,7 @@ export function loadState() {
     const raw = localStorage.getItem(KEY)
     if (!raw) return { ...DEFAULT_STATE }
     const saved = JSON.parse(raw)
-    return { ...DEFAULT_STATE, ...saved, theme: getTheme(saved?.theme).id, finance: normalizeFinance(saved?.finance) }
+    return { ...DEFAULT_STATE, ...saved, theme: getTheme(saved?.theme).id, personalStreak: normalizePersonalStreak(saved?.personalStreak), finance: normalizeFinance(saved?.finance) }
   } catch {
     return { ...DEFAULT_STATE }
   }
@@ -41,7 +43,7 @@ export function saveState(state) {
 
 // Convierte una fecha a string YYYY-MM-DD en local timezone
 export function toDateStr(date = new Date()) {
-  return date.toLocaleDateString('en-CA') // => "2025-03-22"
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
 }
 
 // Verifica si dos fechas son el mismo día

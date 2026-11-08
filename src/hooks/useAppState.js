@@ -5,6 +5,7 @@ import { checkBrokenStreaks } from '../utils/xp.js'
 import { applyProgress } from '../utils/progress.js'
 import { applyFinance } from '../utils/finance.js'
 import { applyTheme, getTheme } from '../data/themes.js'
+import { toDateStr } from '../utils/storage.js'
 
 export function useAppState() {
   const [storageError, setStorageError] = useState(false)
@@ -65,6 +66,16 @@ export function useAppState() {
 
   const markHabitDone = useCallback((id) => {
     setState(prev => applyProgress(prev, id, null, true))
+  }, [setState])
+  const markPersonalStreakDay = useCallback((date, status) => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || toDateStr(new Date(`${date}T12:00:00`)) !== date || date > toDateStr()) return
+    if (status !== null && !['kept', 'missed'].includes(status)) return
+    setState(prev => {
+      const records = { ...(prev.personalStreak?.records || {}) }
+      if (status === null) delete records[date]
+      else records[date] = status
+      return { ...prev, personalStreak: { records } }
+    })
   }, [setState])
   const clearPendingLevelUp = useCallback(() => {
     setState(prev => ({ ...prev, pendingLevelUp: null }))
@@ -151,7 +162,7 @@ export function useAppState() {
   }, [setState])
 
   const resetAll = useCallback(() => {
-    if (window.confirm('¿Seguro que quieres borrar todo, incluidas tus metas, notas y finanzas? Esta acción no se puede deshacer.')) {
+    if (window.confirm('¿Seguro que quieres borrar todo, incluidas tus metas, notas, finanzas y calendario de constancia? Esta acción no se puede deshacer.')) {
       setState(prev => ({ ...DEFAULT_STATE, goals: [], notes: [], theme: prev.theme, createdAt: new Date().toISOString() }))
     }
   }, [])
@@ -165,6 +176,7 @@ export function useAppState() {
     editGoal,
     updateGoalProgress,
     markHabitDone,
+    markPersonalStreakDay,
     clearPendingLevelUp,
     saveGoalNote,
     addGoalEntry,

@@ -84,6 +84,7 @@ lifelevel-app/
 │   ├── components/
 │   │   ├── LevelRing.jsx      ← El anillo SVG animado de nivel
 │   │   ├── GoalCard.jsx       ← Tarjeta de cada meta
+│   │   ├── PersonalStreak.jsx ← Calendario personal de constancia
 │   │   ├── UpdateModal.jsx    ← Sheet para actualizar progreso
 │   │   ├── RewardModal.jsx    ← Modal de recompensa al subir nivel
 │   │   ├── AddGoalSheet.jsx   ← Formulario para crear metas
@@ -99,7 +100,8 @@ lifelevel-app/
 │   │   └── xp.js              ← Cálculo de XP y rachas
 │   ├── App.jsx                ← App principal (3 tabs)
 │   ├── main.jsx               ← Entry point de React
-│   └── index.css              ← Variables de tema dark/light + animaciones
+│   ├── index.css              ← Estilos base y animaciones
+│   └── themes.css             ← Paletas visuales
 ├── index.html
 ├── vite.config.js             ← Config de Vite + PWA
 └── package.json
@@ -169,9 +171,11 @@ npm run preview  # Vista previa del build de producción
 
 ## Temas
 
-Abre **Temas** desde el menú para ver y elegir entre seis paletas: Oscuro, Claro, Cyberpunk, Océano, Atardecer y Lavanda. La vista previa se aplica al instante y la elección se conserva al cerrar o recargar la app. También se adapta el color de la barra del navegador y de los controles nativos.
+Abre **Temas** desde el menú para ver y elegir entre siete paletas: Oscuro, Claro, Cyberpunk, Océano, Gris, Rojo y PS2. La vista previa se aplica al instante y la elección se conserva al cerrar o recargar la app. También se adapta el color de la barra del navegador y de los controles nativos.
 
 Las pruebas de las paletas verifican un contraste mínimo de 4,5:1 para los textos evaluados y de 3:1 para los bordes de los controles. El selector funciona con teclado, permite cerrar con Escape y se adapta a pantallas móviles.
+
+La sección **Mi constancia** permite marcar cada día del calendario como cumplido o no cumplido, corregir fechas anteriores y consultar la racha actual y la mejor racha registrada. Los días sin registrar no cuentan como cumplidos.
 
 ## Finanzas personales
 

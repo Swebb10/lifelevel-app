@@ -1,0 +1,65 @@
+.personal-streak {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, .9fr);
+  gap: 26px 38px;
+  margin: 0 0 38px;
+  padding: 26px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: linear-gradient(125deg, var(--surface), var(--bg2));
+}
+.personal-streak-intro { display: flex; flex-direction: column; justify-content: space-between; gap: 22px; }
+.personal-streak-copy h2 { font-size: 23px; letter-spacing: -.4px; margin: 7px 0; }
+.personal-streak-copy p { max-width: 430px; color: var(--text2); font-size: 12px; line-height: 1.7; }
+.personal-streak-stats { display: flex; gap: 12px; }
+.personal-streak-stat { flex: 1; display: grid; grid-template-columns: auto 1fr; align-items: baseline; column-gap: 9px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); }
+.personal-streak-stat strong { grid-row: span 2; color: var(--accent); font-size: 28px; font-weight: 500; }
+.personal-streak-stat span { color: var(--text); font-size: 11px; }
+.personal-streak-stat small { color: var(--text3); font-size: 9px; }
+.streak-calendar-heading { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.streak-calendar-heading h3 { font-size: 15px; margin-top: 4px; text-transform: capitalize; }
+.streak-month-controls { display: flex; gap: 6px; }
+.streak-month-controls button { width: 36px; height: 36px; border: 1px solid var(--border2); border-radius: 9px; background: var(--bg); color: var(--text); font-size: 22px; line-height: 1; }
+.streak-month-controls button:disabled { opacity: .4; cursor: default; }
+.streak-calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
+.streak-weekday { display: grid; place-items: center; height: 24px; color: var(--text3); font-size: 10px; }
+.streak-day-empty { height: 37px; }
+.streak-day { position: relative; display: grid; place-items: center; min-width: 0; height: 37px; border: 1px solid transparent; border-radius: 10px; background: var(--bg); color: var(--text2); font-size: 11px; font-variant-numeric: tabular-nums; }
+.streak-day.is-kept { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+.streak-day.is-missed { border-color: var(--red); background: var(--red-bg); color: var(--red); }
+.streak-day.is-today::after { position: absolute; right: 4px; bottom: 3px; width: 4px; height: 4px; border-radius: 50%; background: currentColor; content: ''; }
+.streak-day.is-selected { outline: 2px solid var(--accent); outline-offset: 1px; }
+.streak-day:disabled { opacity: .3; cursor: default; }
+.streak-legend { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 12px; }
+.streak-legend span { display: flex; align-items: center; gap: 5px; color: var(--text2); font-size: 9px; }
+.streak-legend i { width: 8px; height: 8px; border-radius: 50%; background: var(--border2); }
+.streak-legend i.is-kept { background: var(--green); }
+.streak-legend i.is-missed { background: var(--red); }
+.streak-selected-date { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.streak-selected-date strong { color: var(--text); font-size: 13px; text-transform: capitalize; }
+.streak-status-text { font-size: 10px; }
+.streak-status-text.kept { color: var(--green); }
+.streak-status-text.missed { color: var(--red); }
+.personal-streak-actions { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-top: 18px; border-top: 1px solid var(--border); }
+.streak-mark-buttons { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.streak-mark-button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 42px; padding: 0 14px; border: 1px solid var(--border2); border-radius: 10px; background: var(--bg); color: var(--text); font-size: 11px; }
+.streak-mark-button.kept.active { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+.streak-mark-button.missed.active { border-color: var(--red); background: var(--red-bg); color: var(--red); }
+.streak-mark-button.kept b { color: var(--green); }
+.streak-mark-button.missed b { color: var(--red); }
+.streak-clear-button { min-height: 42px; padding: 0 8px; border-radius: 8px; background: transparent; color: var(--text2); font-size: 10px; text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 1000px) {
+  .personal-streak { grid-template-columns: 1fr 1fr; gap: 24px; padding: 22px; }
+}
+@media (max-width: 700px) {
+  .personal-streak { grid-template-columns: 1fr; gap: 22px; margin-bottom: 30px; padding: 19px; }
+  .personal-streak-intro { gap: 18px; }
+  .personal-streak-actions { grid-column: auto; align-items: flex-start; flex-direction: column; }
+}
+@media (max-width: 430px) {
+  .personal-streak-stat { grid-template-columns: 1fr; gap: 2px; padding: 11px; }
+  .personal-streak-stat strong { grid-row: auto; font-size: 25px; }
+  .streak-mark-buttons { width: 100%; }
+  .streak-mark-button { flex: 1; padding-inline: 8px; }
+  .streak-clear-button { width: 100%; }
+}

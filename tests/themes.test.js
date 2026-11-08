@@ -50,9 +50,11 @@ for (const theme of THEMES) {
   })
 }
 
-test('six unique themes include existing preferences and Cyberpunk', () => {
-  assert.equal(new Set(THEMES.map(t => t.id)).size, 6)
-  for (const id of ['dark', 'light', 'cyberpunk']) assert.equal(getTheme(id).id, id)
+test('seven unique themes include the original palettes, Cyberpunk and the new dark palettes', () => {
+  assert.equal(new Set(THEMES.map(t => t.id)).size, 7)
+  for (const id of ['dark', 'light', 'cyberpunk', 'graphite', 'crimson', 'ps2']) assert.equal(getTheme(id).id, id)
+  assert.equal(getTheme('sunset').id, 'crimson')
+  assert.equal(getTheme('lavender').id, 'ps2')
   assert.equal(getTheme('unknown').id, 'dark')
 })
 
